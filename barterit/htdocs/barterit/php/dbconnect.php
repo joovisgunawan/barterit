@@ -1,4 +1,8 @@
 <?php
+    // $dbhost = "sql6.freemysqlhosting.net";
+    // $dbuser = "sql6634026";
+    // $dbpass = "CYqlmARmfT";
+    // $db = "sql6634026";
     $dbhost = "localhost";
     $dbuser = "root";
     $dbpass = "";

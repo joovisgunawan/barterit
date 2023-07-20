@@ -1,10 +1,10 @@
-
 import 'package:barterit/screens/editprofile.dart';
 import 'package:barterit/screens/signinscreen.dart';
 import 'package:flutter/material.dart';
 
 import '../mainscreen.dart';
 import '../models/user.dart';
+import '../phpconfig.dart';
 
 class ProfileScreen extends StatefulWidget {
   final User user;
@@ -15,20 +15,14 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  var color;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // getUser();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(
+        title: const Text('Profile'),
+        automaticallyImplyLeading: false,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -48,9 +42,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Image.network(
-                            // "${PhpConfig().SERVER}/barterit/photo/${widget.user.id}.png",
-                            "https://picsum.photos/95/95",
-                            // width: double.infinity,
+                            widget.user.id == "na"
+                                ? "${PhpConfig().SERVER}/barterit/photo/na.png"
+                                : "${PhpConfig().SERVER}/barterit/photo/${widget.user.photo}.png",
+                            width: 95,
+                            height: 95,
                           ),
                         ),
                         const SizedBox(
@@ -77,7 +73,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             widget.user.id == "na"
                                 ? Container(
                                     margin: const EdgeInsets.only(top: 6),
-                                    padding: const EdgeInsets.fromLTRB(16, 6, 16, 6),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(16, 6, 16, 6),
                                     decoration: BoxDecoration(
                                       color: Colors.red,
                                       borderRadius: BorderRadius.circular(16),
@@ -88,7 +85,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ))
                                 : Container(
                                     margin: const EdgeInsets.only(top: 6),
-                                    padding: const EdgeInsets.fromLTRB(16, 6, 16, 6),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(16, 6, 16, 6),
                                     decoration: BoxDecoration(
                                       color: Colors.green,
                                       borderRadius: BorderRadius.circular(16),
@@ -107,13 +105,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                EditProfileScreen(user: widget.user),
-                          ),
-                        );
+                        widget.user.id == "na"
+                            ? print('Login First')
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditProfileScreen(user: widget.user),
+                                ),
+                              );
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: const Color(0xffF7FFF7),
@@ -224,7 +224,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           trailing: const Icon(Icons.navigate_next_outlined),
                           onTap: () {
                             // widget.user.id = 'na';
-                            Navigator.pushReplacement(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (content) => const SignInScreen(),
@@ -251,7 +251,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (content) => MainScreen(user: user),
+                                builder: (content) => MainScreen(
+                                  user: user,
+                                  index: 0,
+                                ),
                               ),
                             );
                           },

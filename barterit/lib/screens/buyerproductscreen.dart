@@ -1,28 +1,29 @@
 import 'dart:convert';
 
-import 'package:barterit/screens/postproductscreen.dart';
-// import 'package:barterit/screens/signinscreen.dart';
+import 'package:barterit/screens/bargain.dart';
+import 'package:barterit/screens/buyerdetailscreen.dart';
+// import 'package:barterit/screens/postproductscreen.dart';
+// import 'package:barterit/screens/sellerscreen.dart';
 import 'package:flutter/material.dart';
 
 import '../models/product.dart';
 import '../models/user.dart';
+import '../phpconfig.dart';
 import 'package:http/http.dart' as http;
 
-import '../phpconfig.dart';
-import 'buyerdetailscreen.dart';
 import 'cartscreen.dart';
-// import 'signinscreen.dart';
 
-class SellerScreen extends StatefulWidget {
+class BuyerProductScreen extends StatefulWidget {
   final User user;
-
-  const SellerScreen({super.key, required this.user});
+  final Product sellerProduct;
+  const BuyerProductScreen(
+      {super.key, required this.user, required this.sellerProduct});
 
   @override
-  State<SellerScreen> createState() => _SellerScreenState();
+  State<BuyerProductScreen> createState() => _BuyerProductScreenState();
 }
 
-class _SellerScreenState extends State<SellerScreen> {
+class _BuyerProductScreenState extends State<BuyerProductScreen> {
   List productList = [];
   TextEditingController searchController = TextEditingController();
   late double screenHeight, screenWidth;
@@ -38,20 +39,19 @@ class _SellerScreenState extends State<SellerScreen> {
     getProduct(currentPage);
   }
 
-  // List productList = [];
-  // String title = 'Seller';
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getProduct();
-  // }
-
   @override
   Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
+    if (screenWidth > 600) {
+      axiscount = 3;
+    } else {
+      axiscount = 2;
+    }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Seller'),
-        automaticallyImplyLeading: false,
+        title: const Text('My Product'),
+        // automaticallyImplyLeading: false,
       ),
       // body: productList.isEmpty
       // ? const Center(
@@ -81,15 +81,16 @@ class _SellerScreenState extends State<SellerScreen> {
                           padding: const EdgeInsets.all(2.0),
                           child: InkWell(
                             onTap: () async {
-                              Product userProduct = Product.fromJson(
+                              Product buyerProduct = Product.fromJson(
                                 productList[index].toJson(),
                               ); //select the product from the current order of list and make it to json
                               await Navigator.push(
                                 context, //thi is the await
                                 MaterialPageRoute(
-                                  builder: (content) => BuyerDetailsScreen(
+                                  builder: (content) => BargainScreen(
                                     user: widget.user,
-                                    userProduct: userProduct,
+                                    buyerProduct: buyerProduct,
+                                    sellerProduct: widget.sellerProduct,
                                   ),
                                 ),
                               );
@@ -191,35 +192,18 @@ class _SellerScreenState extends State<SellerScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (content) => PostProductScreen(user: widget.user),
-            ),
-          );
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 
   void getProduct(int currentPage) {
-    if (widget.user.id == "na") {
-      setState(() {
-        // titlecenter = "Unregistered User";
-      });
-      return;
-    }
     http.post(
       Uri.parse("${PhpConfig().SERVER}/barterit/php/getproduct.php"),
       body: {
         'user_id': widget.user.id,
+        // 'current_page': currentPage.toString(),
       },
     ).then((response) {
-      print(response.body);
+      // print(response.body);
       productList.clear();
       if (response.statusCode == 200) {
         var jsondata = jsonDecode(response.body);
@@ -228,9 +212,10 @@ class _SellerScreenState extends State<SellerScreen> {
           extractData['product'].forEach((product) {
             productList.add(Product.fromJson(product));
           });
-          print(widget.user.id);
+          totalPage = jsondata['totalPage'];
         }
         setState(() {});
+        print(currentPage);
       }
     });
   }

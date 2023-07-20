@@ -6,6 +6,7 @@ class User {
   String? gender;
   String? phone;
   String? address;
+  String? photo;
 
   User(
       {this.id,
@@ -14,7 +15,8 @@ class User {
       this.password,
       this.gender,
       this.phone,
-      this.address});
+      this.address,
+      this.photo});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -24,6 +26,7 @@ class User {
     gender = json['gender'];
     phone = json['phone'];
     address = json['address'];
+    photo = json['photo'];
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +38,7 @@ class User {
     data['gender'] = gender;
     data['phone'] = phone;
     data['address'] = address;
+    data['photo'] = photo;
     return data;
   }
 }

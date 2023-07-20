@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:barterit/mainscreen.dart';
+import 'package:barterit/onboardscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +22,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // checkFirstRun();
     checkLogin();
   }
 
@@ -38,11 +39,16 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.indigo,
+        color: const Color.fromARGB(255, 163, 177, 255),
         width: double.infinity,
         height: double.infinity,
         child: const Center(
-          child: Text('data'),
+          child: Image(
+            image: AssetImage(
+              'assets/images/logo.png',
+            ),
+            width: 250,
+          ),
         ),
       ),
     );
@@ -59,33 +65,79 @@ class _SplashScreenState extends State<SplashScreen> {
   // }
 
   checkLogin() async {
+    print('response.body1');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = (prefs.getString('email')) ?? '';
     String password = (prefs.getString('password')) ?? '';
+    bool seenOnBoard = prefs.getBool('seenOnBoard') ?? false;
     bool rememberMe = (prefs.getBool('rememberMe') ?? false);
     User user;
-    if (rememberMe) {
-      http.post(
-        Uri.parse("${PhpConfig().SERVER}/barterit/php/signin.php"),
-        body: {
-          "email": email,
-          "password": password,
-        },
-      ).then((response) {
-        print(response.body);
-        if (response.statusCode == 200) {
-          //means succes call to login API
-          var jsondata = jsonDecode(response.body); //decode==parse
-          user = User.fromJson(jsondata['data']);
-          if (jsondata['status'] == 'success') {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (content) => MainScreen(
-                  user: user,
-                ),
-              ),
-            );
+    if (!seenOnBoard) {
+      print('response.body2');
+      Timer(
+        const Duration(milliseconds: 3000),
+        () => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (content) => const OnBoardScreen(),
+          ),
+        ),
+      );
+    } else {
+      print('response.body3');
+      if (rememberMe) {
+        print('response.body4');
+        http.post(
+          Uri.parse("${PhpConfig().SERVER}/barterit/php/signin.php"),
+          body: {
+            "email": email,
+            "password": password,
+          },
+        ).then((response) {
+          print(response.body);
+          if (response.statusCode == 200) {
+            //means succes call to login API
+            var jsondata = jsonDecode(response.body); //decode==parse
+            user = User.fromJson(jsondata['data']);
+            if (jsondata['status'] == 'success') {
+              Timer(
+                const Duration(milliseconds: 3000),
+                () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (content) => MainScreen(
+                        user: user,
+                        index: 0,
+                      ),
+                    ),
+                  );
+                },
+              );
+            } else {
+              user = User(
+                  id: "na",
+                  name: "na",
+                  email: "na",
+                  password: "na",
+                  gender: "na",
+                  phone: "na",
+                  address: "na");
+              Timer(
+                const Duration(milliseconds: 3000),
+                () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (content) => MainScreen(
+                        user: user,
+                        index: 0,
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
           } else {
             user = User(
                 id: "na",
@@ -95,14 +147,22 @@ class _SplashScreenState extends State<SplashScreen> {
                 gender: "na",
                 phone: "na",
                 address: "na");
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (content) => MainScreen(user: user),
-              ),
+            Timer(
+              const Duration(milliseconds: 3000),
+              () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (content) => MainScreen(
+                      user: user,
+                      index: 0,
+                    ),
+                  ),
+                );
+              },
             );
           }
-        } else {
+        }).timeout(const Duration(seconds: 5), onTimeout: () {
           user = User(
               id: "na",
               name: "na",
@@ -111,29 +171,41 @@ class _SplashScreenState extends State<SplashScreen> {
               gender: "na",
               phone: "na",
               address: "na");
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (content) => MainScreen(user: user),
+          Timer(
+            const Duration(milliseconds: 3000),
+            () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (content) => MainScreen(
+                  user: user,
+                  index: 0,
+                ),
+              ),
             ),
           );
-        }
-      });
-    } else {
-      user = User(
-          id: "na",
-          name: "na",
-          email: "na",
-          password: "na",
-          gender: "na",
-          phone: "na",
-          address: "na");
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (content) => MainScreen(user: user),
-        ),
-      );
+        });
+      } else {
+        user = User(
+            id: "na",
+            name: "na",
+            email: "na",
+            password: "na",
+            gender: "na",
+            phone: "na",
+            address: "na");
+        Timer(
+          const Duration(milliseconds: 3000),
+          () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (content) => MainScreen(
+                user: user,
+                index: 0,
+              ),
+            ),
+          ),
+        );
+      }
     }
     setState(() {});
   }

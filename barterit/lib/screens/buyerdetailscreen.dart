@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 // import 'package:barterit/screens/cartscreen.dart';
+import 'package:barterit/screens/bargain.dart';
+
+import 'buyerproductscreen.dart';
 import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../models/user.dart';
@@ -236,242 +239,134 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
                       ),
                     ],
                   ),
-
-                  // Table(
-                  //   children: [
-                  //     TableRow(children: [
-                  //       const TableCell(
-                  //         child: Text(
-                  //           "Stock",
-                  //           style: TextStyle(
-                  //             fontSize: 18,
-                  //             fontWeight: FontWeight.bold,
-                  //             // color: Colors.white,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       TableCell(
-                  //         child: Text(
-                  //           "${widget.userProduct.productQuantity}",
-                  //           style: TextStyle(
-                  //             fontSize: 18,
-                  //             fontWeight: FontWeight.bold,
-                  //             // color: Colors.white,
-                  //           ),
-                  //         ),
-                  //       )
-                  //     ]),
-                  //     TableRow(children: [
-                  //       const TableCell(
-                  //         child: Text(
-                  //           "State",
-                  //           style: TextStyle(
-                  //             fontSize: 18,
-                  //             fontWeight: FontWeight.bold,
-                  //             // color: Colors.white,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       TableCell(
-                  //         child: Text(
-                  //           "${widget.userProduct.productState}",
-                  //           style: TextStyle(
-                  //             fontSize: 18,
-                  //             // fontWeight: FontWeight.bold,
-                  //             // color: Colors.white,
-                  //           ),
-                  //         ),
-                  //       )
-                  //     ]),
-                  //     TableRow(children: [
-                  //       const TableCell(
-                  //         child: Text(
-                  //           "Locality",
-                  //           style: TextStyle(
-                  //             fontSize: 18,
-                  //             fontWeight: FontWeight.bold,
-                  //             // color: Colors.white,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       TableCell(
-                  //         child: Text(
-                  //           "${widget.userProduct.productLocality}",
-                  //           style: TextStyle(
-                  //             fontSize: 18,
-                  //             // fontWeight: FontWeight.bold,
-                  //             // color: Colors.white,
-                  //           ),
-                  //         ),
-                  //       )
-                  //     ]),
-                  //   ],
-                  // ),
-                  // const Text(
-                  //   "Description",
-                  //   style: TextStyle(
-                  //     fontSize: 18,
-                  //     fontWeight: FontWeight.bold,
-                  //     // color: Colors.white,
-                  //   ),
-                  // ),
-                  // Text(
-                  //   "${widget.userProduct.productDescription}",
-                  //   style: const TextStyle(
-                  //     fontSize: 18,
-                  //     // fontWeight: FontWeight.bold,
-                  //     // color: Colors.white,
-                  //   ),
-                  // ),
                 ],
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextButton(
-              onPressed: () {
-                addtocart();
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.indigo,
-                minimumSize: const Size.fromHeight(50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 5,
+                  child: Container(
+                    color: Colors.white,
+                    child: TextButton(
+                      onPressed: () {
+                        addtocart();
+                      },
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.indigo,
+                        backgroundColor: Colors.white,
+                        minimumSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        side: const BorderSide(
+                          color: Colors.indigo,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      child: const Text(
+                        'Add to Whislist',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          // color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-                side: const BorderSide(
-                  color: Colors.indigo,
-                  style: BorderStyle.solid,
+                const SizedBox(
+                  width: 10,
                 ),
-              ),
-              child: const Text(
-                'Add To Cart',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  // color: Colors.white,
+                Flexible(
+                  flex: 5,
+                  child: Container(
+                    color: Colors.white,
+                    child: TextButton(
+                      onPressed: () {
+                        showMyProduct();
+                      },
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.indigo,
+                        minimumSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        side: const BorderSide(
+                          color: Colors.indigo,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      child: const Text(
+                        'Barter Now',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          // color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     Container(
-          //       padding: const EdgeInsets.all(8),
-          //       child: Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //           children: [
-          //             IconButton(
-          //                 onPressed: () {
-          //                   if (int.parse(userQuantityController.text) <= 1) {
-          //                     userQuantityController.text = 1.toString();
-          //                     totalPrice = singlePrice *
-          //                         int.parse(userQuantityController.text);
-          //                   } else {
-          //                     userQuantityController.text =
-          //                         (int.parse(userQuantityController.text) - 1)
-          //                             .toString();
-          //                     totalPrice = singlePrice *
-          //                         int.parse(userQuantityController.text);
-          //                   }
-          //                   setState(() {});
-          //                 },
-          //                 icon: const Icon(Icons.remove)),
-          //             Container(
-          //               width: 30,
-          //               child: TextField(
-          //                 onChanged: (value) {
-          //                   if (int.parse(userQuantityController.text) <= 1) {
-          //                     userQuantityController.text = 1.toString();
-          //                     totalPrice = singlePrice *
-          //                         int.parse(userQuantityController.text);
-          //                   } else {
-          //                     userQuantityController.text =
-          //                         (int.parse(userQuantityController.text) - 1)
-          //                             .toString();
-          //                     totalPrice = singlePrice *
-          //                         int.parse(userQuantityController.text);
-          //                   }
-          //                   setState(() {});
-          //                 },
-          //                 // focusNode: myFocusNode,
-          //                 controller: userQuantityController,
-          //               ),
-          //             ),
-          //             // Text(
-          //             //   'gas',
-          //             //   // userqty.toString(),
-          //             //   style: const TextStyle(
-          //             //       fontSize: 16, fontWeight: FontWeight.bold),
-          //             // ),
-          //             IconButton(
-          //                 onPressed: () {
-          //                   if (int.parse(userQuantityController.text) >=
-          //                       maksQuantity) {
-          //                     userQuantityController.text =
-          //                         maksQuantity.toString();
-          //                     totalPrice = singlePrice *
-          //                         int.parse(userQuantityController.text);
-          //                   } else {
-          //                     userQuantityController.text =
-          //                         (int.parse(userQuantityController.text) + 1)
-          //                             .toString();
-          //                     totalPrice = singlePrice *
-          //                         int.parse(userQuantityController.text);
-          //                   }
-          //                   setState(() {});
-          //                 },
-          //                 icon: const Icon(Icons.add)),
-          //           ]),
-          //     ),
-          //   ],
-          // ),
-          // SizedBox(
-          //   height: 10,
-          // ),
-          // Container(
-          //   padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-          //   decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.only(
-          //           topLeft: Radius.circular(16),
-          //           topRight: Radius.circular(16)),
-          //       color: Colors.black12),
-
-          //   // color: Colors.black26,
+          // Padding(
+          //   padding: const EdgeInsets.all(16.0),
           //   child: Row(
           //     children: [
-          //       Container(
-          //         width: 150,
-          //         child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             Text('Price'),
-          //             Text(
-          //               'RM ' + totalPrice.toString(),
-          //               style: const TextStyle(
-          //                 fontSize: 21,
-          //                 fontWeight: FontWeight.w500,
-          //                 color: Colors.orange,
-          //               ),
-          //             ),
-          //           ],
+          //       TextButton(
+          //         onPressed: () {
+          //           addtocart();
+          //         },
+          //         style: TextButton.styleFrom(
+          //           foregroundColor: Colors.white,
+          //           backgroundColor: Colors.indigo,
+          //           minimumSize: const Size.fromHeight(50),
+          //           shape: RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(8),
+          //           ),
+          //           side: const BorderSide(
+          //             color: Colors.indigo,
+          //             style: BorderStyle.solid,
+          //           ),
+          //         ),
+          //         child: const Text(
+          //           'Add To Cart',
+          //           style: TextStyle(
+          //             fontSize: 18,
+          //             fontWeight: FontWeight.bold,
+          //             // color: Colors.white,
+          //           ),
           //         ),
           //       ),
-          //       Expanded(
-          //         child: TextButton(
-          //           onPressed: () {
-          //             setState(() {});
-          //             addtocart();
-          //           },
-          //           child: Text('Add To Cart'),
-          //           style: TextButton.styleFrom(
-          //             foregroundColor: Colors.white,
-          //             backgroundColor: Colors.indigo,
-          //             shape: RoundedRectangleBorder(
-          //               borderRadius: BorderRadius.circular(8),
-          //             ),
+          //       TextButton(
+          //         onPressed: () {
+          //           addtocart();
+          //         },
+          //         style: TextButton.styleFrom(
+          //           foregroundColor: Colors.white,
+          //           backgroundColor: Colors.indigo,
+          //           minimumSize: const Size.fromHeight(50),
+          //           shape: RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(8),
+          //           ),
+          //           side: const BorderSide(
+          //             color: Colors.indigo,
+          //             style: BorderStyle.solid,
+          //           ),
+          //         ),
+          //         child: const Text(
+          //           'Add To Cart',
+          //           style: TextStyle(
+          //             fontSize: 18,
+          //             fontWeight: FontWeight.bold,
+          //             // color: Colors.white,
           //           ),
           //         ),
           //       ),
@@ -491,6 +386,45 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
           "cartPrice": totalPrice.toString(),
           "buyerId": widget.user.id,
           "sellerId": widget.userProduct.sellerId
+        }).then((response) {
+      print(response.body);
+      if (response.statusCode == 200) {
+        var jsondata = jsonDecode(response.body);
+        if (jsondata['status'] == 'success') {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text("Success")));
+        } else {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text("Failed")));
+        }
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Failed")));
+        Navigator.pop(context);
+      }
+    });
+  }
+
+  void showMyProduct() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (content) => BuyerProductScreen(
+          user: widget.user,
+          sellerProduct: widget.userProduct,
+        ),
+      ),
+    );
+  }
+
+  void barter() {
+    http.post(Uri.parse("${PhpConfig().SERVER}/barterit/php/addbarter.php"),
+        body: {
+          "buyer_product_id": userQuantity.toString(),
+          "seller_product_id": widget.userProduct.productId,
+          "buyer_id": widget.user.id,
+          "seller_id": widget.userProduct.sellerId
         }).then((response) {
       print(response.body);
       if (response.statusCode == 200) {

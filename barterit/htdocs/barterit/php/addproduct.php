@@ -5,7 +5,7 @@ if (!isset($_POST)) {
     sendJsonResponse($response);
     die();
 }
-$user_id = $_POST['userId'];
+$seller_id = $_POST['sellerId'];
 $product_name = $_POST['productName'];
 $product_category = $_POST['productCategory'];
 $product_description = $_POST['productDescription'];
@@ -17,7 +17,7 @@ $product_state = $_POST['productState'];
 $product_locality = $_POST['productLocality'];
 $product_image = $_POST['productImage'];
 // $status = "New";
-$sql = "INSERT INTO table_product(user_id,product_name,product_category, product_description, product_price, product_quantity, product_state, product_locality) VALUES ('$user_id','$product_name','$product_category','$product_description','$product_price','$product_quantity','$product_state','$product_locality')";
+$sql = "INSERT INTO table_product(seller_id,product_name,product_category, product_description, product_price, product_quantity, product_state, product_locality) VALUES ('$seller_id','$product_name','$product_category','$product_description','$product_price','$product_quantity','$product_state','$product_locality')";
 // $result = $conn->query($sql);
 // $number_of_result = $result->num_rows;
 

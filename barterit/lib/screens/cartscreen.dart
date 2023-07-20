@@ -19,7 +19,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  List cartList = [];
+  List<Cart> cartList = [];
   late double screenHeight, screenWidth;
   late int axiscount = 2;
   double totalprice = 0.0;
@@ -49,8 +49,8 @@ class _CartScreenState extends State<CartScreen> {
                     itemCount: cartList.length,
                     itemBuilder: (context, index) {
                       return Padding(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
                         child: Card(
                           elevation: 1,
                           child: Container(
@@ -237,12 +237,17 @@ class _CartScreenState extends State<CartScreen> {
                           height: 15,
                         ),
                         TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
+                          onPressed: () async {
+                            // Cart cart = Cart.fromJson(
+                            //   cartList.toJson(),
+                            // ); //select the product from the current order of list and make it to json
+                            await Navigator.push(
+                              context, //thi is the await
                               MaterialPageRoute(
-                                builder: (context) => PaymentScreen(
+                                builder: (content) => PaymentScreen(
                                   user: widget.user,
+                                  cart: cartList,
+                                  totalPrice: totalprice,
                                 ),
                               ),
                             );

@@ -1,4 +1,5 @@
 // import 'package:barterit/screens/signinscreen.dart';
+import 'package:barterit/screens/barterscreen.dart';
 import 'package:barterit/screens/homescreen.dart';
 import 'package:barterit/screens/sellerscreen.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +7,13 @@ import 'package:flutter/material.dart';
 import 'models/user.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-import 'screens/notificationscreen.dart';
+import 'screens/buyerproductscreen.dart';
 import 'screens/profilescreen.dart';
 
 class MainScreen extends StatefulWidget {
   final User user;
-  const MainScreen({super.key, required this.user});
+  final int index;
+  const MainScreen({super.key, required this.user, required this.index});
 
   @override
   State<MainScreen> createState() => _HomeScreenState();
@@ -30,9 +32,10 @@ class _HomeScreenState extends State<MainScreen> {
     tabchildren = [
       HomeScreen(user: widget.user),
       SellerScreen(user: widget.user),
-      NotificationScreen(user: widget.user),
+      BarterScreen(user: widget.user),
       ProfileScreen(user: widget.user),
     ];
+    _currentIndex = widget.index;
     // myController.text = total.toString();
     // print(widget.user.name);
   }
@@ -57,6 +60,7 @@ class _HomeScreenState extends State<MainScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
           child: GNav(
+            selectedIndex: widget.index,
             backgroundColor: Colors.white,
             activeColor: Colors.white,
             tabBackgroundColor: Colors.indigo,

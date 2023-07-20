@@ -6,23 +6,15 @@ if (!isset($_POST)) {
     die();
 }
 
-
 if (isset($_POST['current_page'])) {
     $currentPage = (int)$_POST['current_page'];
 } else {
     $currentPage = 1;
 }
 
-
-
-// ex start from index 0
-// start from index 10
-// start from index 20
-
-
 if (isset($_POST['user_id'])) {
     $userid = $_POST['user_id'];
-    $sql = "SELECT * FROM `table_product` WHERE user_id = '$userid'";
+    $sql = "SELECT * FROM `table_product` WHERE seller_id = '$userid'";
 } else if (isset($_POST['search_key'])) {
     $search = $_POST['search_key'];
     $sql = "SELECT * FROM `table_product` WHERE product_name LIKE '%$search%'";
@@ -52,7 +44,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $productlist = array();
         $productlist['product_id'] = $row['product_id'];
-        $productlist['user_id'] = $row['user_id'];
+        $productlist['seller_id'] = $row['seller_id'];
         $productlist['product_name'] = $row['product_name'];
         $productlist['product_category'] = $row['product_category'];
         $productlist['product_description'] = $row['product_description'];

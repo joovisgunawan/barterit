@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:barterit/mainscreen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import '../models/user.dart';
@@ -60,9 +61,11 @@ class _SignUpScreenState extends State<EditProfileScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: Image.network(
-                  // "${PhpConfig().SERVER}/barterit/photo/${widget.user.id}.png",
-                  "https://picsum.photos/100/100",
-                  // width: double.infinity,
+                  widget.user.id == "na"
+                      ? "${PhpConfig().SERVER}/barterit/photo/na.png"
+                      : "${PhpConfig().SERVER}/barterit/photo/${widget.user.photo}.png",
+                  width: 100,
+                  height: 100,
                 ),
               ),
             ),
@@ -140,7 +143,7 @@ class _SignUpScreenState extends State<EditProfileScreen> {
                                 TextFormField(
                                   controller: _gender,
                                   decoration: const InputDecoration(
-                                    prefixIcon: Icon(Icons.email),
+                                    prefixIcon: Icon(Icons.person),
                                     hintText: 'Gender',
                                   ),
                                   // validator: (value) => value!.isEmpty ||
@@ -171,7 +174,7 @@ class _SignUpScreenState extends State<EditProfileScreen> {
                                           ? "Phone must be longer than 5"
                                           : null,
                                   decoration: const InputDecoration(
-                                    // prefixIcon: Icon(Icons.person),
+                                    prefixIcon: Icon(Icons.phone),
                                     hintText: 'Phone Number',
                                   ),
                                 ),
@@ -190,7 +193,7 @@ class _SignUpScreenState extends State<EditProfileScreen> {
                           TextFormField(
                             controller: _address,
                             decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.email),
+                              prefixIcon: Icon(Icons.location_on),
                               hintText: 'Address',
                             ),
                             // validator: (value) => value!.isEmpty ||
@@ -202,13 +205,62 @@ class _SignUpScreenState extends State<EditProfileScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      color: Colors.white,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Password'),
+                          TextFormField(
+                            obscureText: isHidden,
+                            controller: _password,
+                            // validator: (value) => value!.isEmpty || (value.length < 8)
+                            //     ? "Password must be at least 8 characters"
+                            //     : null,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.key),
+                              hintText: 'Password',
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isHidden = !isHidden;
+                                  });
+                                },
+                                icon: Icon(isHidden
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        update();
+                        setState(() {});
+                      },
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.indigo,
+                        minimumSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text('Save'),
+                    ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+
             // Text(
             //   'Address',
             //   style: TextStyle(
@@ -216,41 +268,7 @@ class _SignUpScreenState extends State<EditProfileScreen> {
             //       color: Colors.indigo,
             //       fontWeight: FontWeight.w500),
             // ),
-            TextFormField(
-              obscureText: isHidden,
-              controller: _password,
-              // validator: (value) => value!.isEmpty || (value.length < 8)
-              //     ? "Password must be at least 8 characters"
-              //     : null,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.key),
-                hintText: 'Password',
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isHidden = !isHidden;
-                    });
-                  },
-                  icon:
-                      Icon(isHidden ? Icons.visibility_off : Icons.visibility),
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                update();
-                setState(() {});
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.indigo,
-                minimumSize: const Size.fromHeight(50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text('Save'),
-            ),
+
             // Image.network(
             //   _image==null
             //       ? 'https://picsum.photos/150/150'
@@ -424,8 +442,24 @@ class _SignUpScreenState extends State<EditProfileScreen> {
       if (response.statusCode == 200) {
         var jsondata = jsonDecode(response.body);
         if (jsondata['status'] == 'success') {
+          print(jsondata['data']['name']);
+          User user1 = User.fromJson(jsondata['data']);
+          widget.user.name = jsondata['data']['name'];
+          widget.user.gender = jsondata['data']['gender'];
+          widget.user.phone = jsondata['data']['phone'];
+          widget.user.address = jsondata['data']['address'];
+          widget.user.password = jsondata['data']['password'];
+          widget.user.photo = jsondata['data']['photo'];
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text("Update Success")));
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (content) => MainScreen(
+                      user: user1,
+                      index: 3,
+                    )),
+          );
         } else {
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text("Update Failed")));
@@ -436,11 +470,6 @@ class _SignUpScreenState extends State<EditProfileScreen> {
         Navigator.pop(context);
       }
     });
-    widget.user.name = name;
-    widget.user.gender = gender;
-    widget.user.phone = phone;
-    widget.user.address = address;
-    widget.user.password = password;
     setState(() {});
   }
 

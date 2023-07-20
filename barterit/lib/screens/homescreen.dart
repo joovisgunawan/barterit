@@ -89,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
             label: const Text('cart'),
           )
         ],
+        automaticallyImplyLeading: false,
       ),
       // body: productList.isEmpty
       // ? const Center(
@@ -159,7 +160,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.all(2.0),
                           child: InkWell(
                             onTap: () async {
-                              //asyn measn there is await there
                               Product userProduct = Product.fromJson(
                                 productList[index].toJson(),
                               ); //select the product from the current order of list and make it to json
@@ -259,8 +259,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 return TextButton(
                     onPressed: () {
                       currentPage = index + 1;
-                      // print(currentPage);
-                      // setState(() {});
                       getProduct(currentPage);
                     },
                     child: Text(

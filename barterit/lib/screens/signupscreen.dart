@@ -69,7 +69,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -158,7 +159,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           signup();
                         },
                         style: TextButton.styleFrom(
-                          foregroundColor: Colors.white, backgroundColor: Colors.indigo,
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.indigo,
                           minimumSize: const Size.fromHeight(50),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -206,7 +208,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           );
                         },
                         style: TextButton.styleFrom(
-                          foregroundColor: Colors.indigo, backgroundColor: const Color(0xffF7FFF7),
+                          foregroundColor: Colors.indigo,
+                          backgroundColor: const Color(0xffF7FFF7),
                           minimumSize: const Size.fromHeight(50),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),

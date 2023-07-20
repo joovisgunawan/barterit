@@ -6,10 +6,9 @@
         die();
     }
 
-    $email = $_POST['email'];
-    $password = sha1($_POST['password']);
+    $id = $_POST['id'];
 
-    $sql = "SELECT * FROM table_user WHERE user_email = '$email' AND user_password = '$password'";
+    $sql = "SELECT * FROM table_user WHERE user_id = '$id'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {

@@ -260,7 +260,10 @@ class _SignUpScreenState extends State<SignInScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (content) => MainScreen(user: user),
+              builder: (content) => MainScreen(
+                user: user,
+                index: 0,
+              ),
             ),
           );
         } else {

@@ -9,9 +9,9 @@ include_once("dbconnect.php");
 //SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate FROM Orders INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID;
 
 
-if (isset($_POST['userid'])) {
-    $userid = $_POST['userid'];
-    $sqlcart = "SELECT * FROM `table_cart` INNER JOIN `table_product` ON table_cart.product_id = table_product.product_id WHERE table_cart.user_id = '$userid'";
+if (isset($_POST['buyerId'])) {
+    $buyer_id = $_POST['buyerId'];
+    $sqlcart = "SELECT * FROM `table_cart` INNER JOIN `table_product` ON table_cart.product_id = table_product.product_id WHERE table_cart.buyer_id = '$buyer_id'";
 }
 
 $result = $conn->query($sqlcart);
@@ -27,7 +27,9 @@ if ($result->num_rows > 0) {
         $cartlist['product_description'] = $row['product_description'];
         $cartlist['product_quantity'] = $row['product_quantity'];
         $cartlist['product_price'] = $row['product_price'];
-        $cartlist['user_id'] = $row['user_id'];
+        $cartlist['cart_quantity'] = $row['cart_quantity'];
+        $cartlist['cart_price'] = $row['cart_price'];
+        $cartlist['buyer_id'] = $row['buyer_id'];
         $cartlist['seller_id'] = $row['seller_id'];
         // $cartlist['cart_date'] = $row['cart_date'];
         array_push($cartitems["cart"], $cartlist);
