@@ -13,7 +13,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Notification')),
+      appBar: AppBar(title: const Text('Notification')),
     );
   }
 }

@@ -341,7 +341,7 @@ class _PostProductScreenState extends State<PostProductScreen> {
     http.post(
       Uri.parse("${PhpConfig().SERVER}/barterit/php/addproduct.php"),
       body: {
-        'userId': widget.user.id.toString(),
+        'sellerId': widget.user.id.toString(),
         'productName': productName,
         'productCategory': productCategory,
         'productDescription': productDescription,

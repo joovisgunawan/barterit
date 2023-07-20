@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Center(
                         child: Text(
                           productCategories[index],
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
@@ -276,12 +276,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getProduct(int currentPage) {
-    if (widget.user.id == "na") {
-      setState(() {
-        // titlecenter = "Unregistered User";
-      });
-      return;
-    }
+    // if (widget.user.id == "na") {
+    //   setState(() {
+    //     // titlecenter = "Unregistered User";
+    //   });
+    //   return;
+    // }
     http.post(
       Uri.parse("${PhpConfig().SERVER}/barterit/php/getproduct.php"),
       body: {

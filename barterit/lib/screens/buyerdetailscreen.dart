@@ -44,7 +44,7 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Product Details'),
+        title: const Text('Product Details'),
         elevation: 4,
       ),
       body: Column(
@@ -78,7 +78,7 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
                           // bottomRight: Radius.circular(32),
                         ),
                       ),
-                      padding: EdgeInsets.all(24),
+                      padding: const EdgeInsets.all(24),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +104,7 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
                               ),
                             ],
                           ),
-                          Icon(Icons.favorite_border, size: 25),
+                          const Icon(Icons.favorite_border, size: 25),
                         ],
                       ),
                     ),
@@ -130,9 +130,8 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
                               icon: const Icon(Icons.remove),
                             ),
                             Container(
-                              child: Text(userQuantity.toString()),
-                              // width: 30,
-                              padding: EdgeInsets.symmetric(horizontal: 4),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
@@ -140,16 +139,17 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
                                   width: 2,
                                 ),
                               ),
+                              child: Text(userQuantity.toString()),
                             ),
                             IconButton(
                               onPressed: () {
-                                setState(() {});
                                 if (userQuantity >= maksQuantity) {
                                   userQuantity = maksQuantity;
                                 } else {
                                   userQuantity++;
                                 }
                                 totalPrice = singlePrice * userQuantity;
+                                setState(() {});
                               },
                               icon: const Icon(
                                 Icons.add,
@@ -159,7 +159,7 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
                           ],
                         ),
                         Text(
-                          'RM ' + totalPrice.toString(),
+                          'RM $totalPrice',
                           style: const TextStyle(
                             fontSize: 21,
                             fontWeight: FontWeight.w500,
@@ -180,7 +180,7 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -207,7 +207,7 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -219,7 +219,7 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
                             // color: Colors.white,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text("${widget.userProduct.productDescription}")
@@ -487,10 +487,10 @@ class _BuyerDetailsScreenState extends State<BuyerDetailsScreen> {
     http.post(Uri.parse("${PhpConfig().SERVER}/barterit/php/addtocart.php"),
         body: {
           "productId": widget.userProduct.productId,
-          "product_quantity": 3.toString(),
-          "product_price": 4.toString(),
-          "userId": widget.user.id,
-          "sellerId": widget.userProduct.userId
+          "cartQuantity": userQuantity.toString(),
+          "cartPrice": totalPrice.toString(),
+          "buyerId": widget.user.id,
+          "sellerId": widget.userProduct.sellerId
         }).then((response) {
       print(response.body);
       if (response.statusCode == 200) {

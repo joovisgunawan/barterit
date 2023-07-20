@@ -6,7 +6,9 @@ class Cart {
   String? productDescription;
   String? productQuantity;
   String? productPrice;
-  String? userId;
+  String? cartQuantity;
+  String? cartPrice;
+  String? buyerId;
   String? sellerId;
 
   Cart(
@@ -17,7 +19,9 @@ class Cart {
       this.productDescription,
       this.productQuantity,
       this.productPrice,
-      this.userId,
+      this.cartQuantity,
+      this.cartPrice,
+      this.buyerId,
       this.sellerId});
 
   Cart.fromJson(Map<String, dynamic> json) {
@@ -28,21 +32,25 @@ class Cart {
     productDescription = json['product_description'];
     productQuantity = json['product_quantity'];
     productPrice = json['product_price'];
-    userId = json['user_id'];
+    cartQuantity = json['cart_quantity'];
+    cartPrice = json['cart_price'];
+    buyerId = json['buyer_id'];
     sellerId = json['seller_id'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['cart_id'] = this.cartId;
-    data['product_id'] = this.productId;
-    data['product_name'] = this.productName;
-    data['product_category'] = this.productCategory;
-    data['product_description'] = this.productDescription;
-    data['product_quantity'] = this.productQuantity;
-    data['product_price'] = this.productPrice;
-    data['user_id'] = this.userId;
-    data['seller_id'] = this.sellerId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['cart_id'] = cartId;
+    data['product_id'] = productId;
+    data['product_name'] = productName;
+    data['product_category'] = productCategory;
+    data['product_description'] = productDescription;
+    data['product_quantity'] = productQuantity;
+    data['product_price'] = productPrice;
+    data['cart_quantity'] = cartQuantity;
+    data['cart_price'] = cartPrice;
+    data['buyer_id'] = buyerId;
+    data['seller_id'] = sellerId;
     return data;
   }
 }
